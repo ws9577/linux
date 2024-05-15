@@ -43,3 +43,11 @@ sudo apt update && sudo apt install  -y --install-suggests  linux-generic-hwe-22
 
 # 2. Update grub if necessary to make this new kernel the default.
 # 3. Reboot the system for the kernel change to take effect.
+
+'Chromium' browser which you can find it on Ubuntu's software centre.
+https://www.quora.com/Why-do-Firefox-and-Chrome-run-so-slow-on-Lubuntu
+# Next, check your extensions, one or more of them may be causing problems.
+Try disabling or deactivating them temporarily to see which one is the braindead caveman in your spaceship browser.
+
+type <shift><esc> together to get the chrome task manager.
+You may be surprised at what is hogging the cpu and memory.
