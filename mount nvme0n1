@@ -1,0 +1,15 @@
+lsblk
+# returns:
+nvme1n1     259:0    0   1,8T  0 disk
+└─nvme1n1p1 259:5    0   1,8T  0 part /mnt/data
+
+# Get the UUID of the drive you're interested in:
+$ sudo blkid | grep -i nvme1n1p1
+
+# Now change my fstab line from this:
+/dev/nvme1n1p1    /mnt/data    auto    defaults    0    1
+
+# to this:
+UUID=388f4772-1f41-4b13-9c74-9ed56c4bacc5    /mnt/data    auto    defaults   0   1
+
+ see both mount & UUID with lsblk lsblk -f
