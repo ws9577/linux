@@ -13,3 +13,30 @@ $ sudo blkid | grep -i nvme1n1p1
 UUID=388f4772-1f41-4b13-9c74-9ed56c4bacc5    /mnt/data    auto    defaults   0   1
 
  see both mount & UUID with lsblk lsblk -f
+
+
+# Checking Unallocated LVM Space
+vgdisplay ubuntu-vg
+
+# Creating Swap Space in LVM
+sudo lvcreate -L 8G -n swap ubuntu-vg
+
+# Format the new logical volume as swap:
+sudo mkswap /dev/ubuntu-vg/swap
+
+# Activate the swap:
+sudo swapon /dev/ubuntu-vg/swap
+
+# Add the swap to /etc/fstab for automatic mounting: Append the following line to your /etc/fstab:
+/dev/ubuntu-vg/swap none swap sw 0 0
+
+# Verify the swap space: You can check if the swap is working by running:
+swapon --show
+
+# Or check the total swap space:
+free -h
+
+# Expanding Your Filesystem Later (Optional)
+# If you find that the root filesystem (/) needs more space in the future, you can extend it with:
+sudo lvextend -r -L +20G /dev/ubuntu-vg/ubuntu-lv  # Adds 20 GB to the root partition, for example
+# The -r flag automatically resizes the filesystem after extending the logical volume.
