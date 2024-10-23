@@ -1,0 +1,31 @@
+# Automating LVM Expansion
+
+# Here’s a basic approach to achieve this:
+# Monitor disk usage: Use a command like df to check disk usage. If usage exceeds a certain threshold (e.g., 90%), trigger the extension.
+# Auto-expand script: You could write a script that performs the LVM expansion automatically if the usage exceeds your threshold.
+
+#!/bin/bash
+
+# Set threshold for disk usage
+THRESHOLD=90
+LV_PATH="/dev/ubuntu-vg/ubuntu-lv"
+
+# Get current disk usage as a percentage
+USAGE=$(df / | grep / | awk '{ print $5 }' | sed 's/%//g')
+
+if [ "$USAGE" -ge "$THRESHOLD" ]; then
+  echo "Disk usage is above threshold ($THRESHOLD%), extending LV..."
+  # Extend LV by 10G, you can customize this
+  sudo lvextend -L +10G $LV_PATH
+  # Resize the filesystem
+  sudo resize2fs $LV_PATH
+  echo "LV and filesystem extended by 10G"
+else
+  echo "Disk usage is below threshold"
+fi
+
+
+# Set Up Cron Job
+crontab -e
+
+0 * * * * /path/to/auto-expand-script.sh
